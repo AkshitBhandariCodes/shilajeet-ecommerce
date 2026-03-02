@@ -1,0 +1,140 @@
+================================================================================
+                    WHERE TO PUT BATCH NUMBERS & PDFs
+================================================================================
+
+FILE: scripts/update-certificates.js
+
+================================================================================
+
+const { MongoClient } = require('mongodb');
+
+const MONGODB_URI = 'mongodb+srv://developerduco:p2nDgP07paBQewdi@cluster0.sms0okt.mongodb.net/shilajit-store?retryWrites=true&w=majority&appName=Cluster0';
+
+const certificateData = [
+  {
+    productId: 'agnishila-shilajit-gummies',
+    
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │ batchNumber: 'BAKG-0125',  ← ← ← PUT SHILAJIT BATCH NUMBER HERE   │
+    │                                                                     │
+    │ Example: batchNumber: 'BAKG-0125',                                 │
+    │          (from your Shilajit PDF)                                  │
+    └─────────────────────────────────────────────────────────────────────┘
+    
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │ certificatePdfUrl: 'https://res.cloudinary.com/dsejv31js/image/    │
+    │ upload/v1767090399/agnishila/certificates/agnishila-shilajit-      │
+    │ gummies.pdf',  ← ← ← PUT SHILAJIT PDF URL HERE                    │
+    │                                                                     │
+    │ Example: certificatePdfUrl: 'https://res.cloudinary.com/dsejv31js/ │
+    │          image/upload/v1767090399/agnishila/certificates/          │
+    │          agnishila-shilajit-gummies.pdf',                          │
+    │          (from Cloudinary upload)                                  │
+    └─────────────────────────────────────────────────────────────────────┘
+  },
+  {
+    productId: 'ashwa-glo-gummies',
+    
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │ batchNumber: 'BAKA-0126',  ← ← ← PUT ASHWAGANDHA BATCH NUMBER HERE│
+    │                                                                     │
+    │ Example: batchNumber: 'BAKA-0126',                                 │
+    │          (from your Ashwagandha PDF)                               │
+    └─────────────────────────────────────────────────────────────────────┘
+    
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │ certificatePdfUrl: 'https://res.cloudinary.com/dsejv31js/image/    │
+    │ upload/v1767090399/agnishila/certificates/ashwa-glo-gummies.pdf', │
+    │ ← ← ← PUT ASHWAGANDHA PDF URL HERE                                 │
+    │                                                                     │
+    │ Example: certificatePdfUrl: 'https://res.cloudinary.com/dsejv31js/ │
+    │          image/upload/v1767090399/agnishila/certificates/          │
+    │          ashwa-glo-gummies.pdf',                                   │
+    │          (from Cloudinary upload)                                  │
+    └─────────────────────────────────────────────────────────────────────┘
+  },
+];
+
+async function updateCertificates() {
+  const client = new MongoClient(MONGODB_URI);
+
+  try {
+    await client.connect();
+    const db = client.db('shilajit-store');
+    const productsCollection = db.collection('products');
+
+    console.log('Updating products with certificate data...\n');
+
+    for (const cert of certificateData) {
+      const result = await productsCollection.updateOne(
+        { id: cert.productId },
+        {
+          $set: {
+            batchNumber: cert.batchNumber,
+            certificatePdfUrl: cert.certificatePdfUrl,
+          },
+        }
+      );
+
+      if (result.matchedCount > 0) {
+        console.log(`✅ Updated: ${cert.productId}`);
+        console.log(`   Batch: ${cert.batchNumber}`);
+        console.log(`   Certificate: ${cert.certificatePdfUrl}\n`);
+      } else {
+        console.log(`⚠️  Product not found: ${cert.productId}\n`);
+      }
+    }
+
+    console.log('Certificate update complete!');
+  } catch (error) {
+    console.error('Error updating certificates:', error);
+  } finally {
+    await client.close();
+  }
+}
+
+updateCertificates();
+
+================================================================================
+
+SUMMARY:
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ SHILAJIT GUMMIES                                                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│ Batch Number:  'BAKG-0125'                                              │
+│ PDF URL:       'https://res.cloudinary.com/dsejv31js/image/upload/...'  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│ ASHWAGANDHA GUMMIES                                                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│ Batch Number:  'BAKA-0126'                                              │
+│ PDF URL:       'https://res.cloudinary.com/dsejv31js/image/upload/...'  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+
+STEPS:
+
+1. Open: scripts/update-certificates.js
+2. Find the certificateData array
+3. For Shilajit:
+   - Put batch number in: batchNumber: 'BAKG-0125'
+   - Put PDF URL in: certificatePdfUrl: 'https://...'
+4. For Ashwagandha:
+   - Put batch number in: batchNumber: 'BAKA-0126'
+   - Put PDF URL in: certificatePdfUrl: 'https://...'
+5. Save file
+6. Run: node scripts/update-certificates.js
+7. Test: npm run dev
+8. Visit: http://localhost:3000
+9. Scroll to bottom → See certificates!
+
+================================================================================
+
+THAT'S IT!
+
+Edit one file → Run one script → Done!
+
+================================================================================

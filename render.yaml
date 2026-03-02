@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: agnishila-website
+    env: node
+    plan: standard
+    buildCommand: bash render-build.sh
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=2048
+      - key: MONGODB_URI
+        fromDatabase:
+          name: agnishila-db
+          property: connectionString
+      - key: NEXTAUTH_SECRET
+        sync: false
+      - key: NEXTAUTH_URL
+        value: https://agnishila-website.onrender.com
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: CLOUDINARY_URL
+        sync: false
+
+databases:
+  - name: agnishila-db
+    databaseName: shilajit-store
+    user: agnishila_user
+    plan: standard
