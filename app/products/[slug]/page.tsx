@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     ShoppingCart,
     Star,
+    Quote,
     ArrowLeft,
     Check,
     Shield,
@@ -1254,46 +1255,62 @@ export default function ProductDetailPage() {
                                             return (
                                                 <>
                                                     {/* Reviews List */}
-                                                    <div className="space-y-8">
-                                                        {paginatedReviews.map((review) => (
+                                                    <div className="grid md:grid-cols-2 gap-6">
+                                                        {paginatedReviews.map((review, index) => (
                                                             <motion.div
                                                                 key={review._id}
                                                                 initial={{ opacity: 0, y: 20 }}
                                                                 animate={{ opacity: 1, y: 0 }}
-                                                                className="bg-black border border-white/10 p-8"
+                                                                transition={{ delay: index * 0.06 }}
+                                                                className="group"
                                                             >
-                                                                <div className="flex items-start justify-between mb-6">
-                                                                    <div className="flex items-center space-x-4">
-                                                                        <div className="w-12 h-12 bg-primary-400 flex items-center justify-center">
-                                                                            <span className="text-black font-bold text-lg">
-                                                                                {review.userName.charAt(0).toUpperCase()}
-                                                                            </span>
+                                                                <div className="relative bg-jet-900 border border-white/20 hover:border-primary-400/50 transition-all duration-500 overflow-hidden h-full flex flex-col">
+                                                                    <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary-400/20 group-hover:border-t-primary-400/40 transition-all duration-300"></div>
+
+                                                                    <div className="p-8 flex flex-col flex-grow">
+                                                                        <div className="flex items-start justify-between mb-8">
+                                                                            <div>
+                                                                                <div className="flex items-center space-x-3 mb-2">
+                                                                                    <h4 className="text-white font-bold text-lg tracking-tight">{review.userName}</h4>
+                                                                                    {review.verified && (
+                                                                                        <div className="w-2 h-2 bg-primary-400 transform rotate-45"></div>
+                                                                                    )}
+                                                                                </div>
+                                                                                <p className="text-gray-400 text-sm font-medium">{review.title}</p>
+                                                                                <p className="text-gray-500 text-xs mt-1">{formatDate(review.createdAt)}</p>
+                                                                            </div>
+
+                                                                            <div className="text-white/10 group-hover:text-primary-400/20 transition-colors duration-300">
+                                                                                <Quote size={24} />
+                                                                            </div>
                                                                         </div>
-                                                                        <div>
-                                                                            <div className="text-white font-bold text-lg">{review.userName}</div>
-                                                                            <div className="text-gray-400">{formatDate(review.createdAt)}</div>
+
+                                                                        <div className="flex items-center space-x-3 mb-6">
+                                                                            <div className="flex space-x-1">
+                                                                                {[...Array(review.rating)].map((_, i) => (
+                                                                                    <div key={i} className="w-1 h-4 bg-primary-400"></div>
+                                                                                ))}
+                                                                            </div>
+                                                                            <span className="text-white font-bold text-sm">{review.rating}.0</span>
                                                                         </div>
-                                                                    </div>
-                                                                    <div className="flex items-center space-x-3">
-                                                                        <div className="flex space-x-1">
-                                                                            {[...Array(5)].map((_, i) => (
-                                                                                <Star
-                                                                                    key={i}
-                                                                                    className={`w-5 h-5 ${i < review.rating ? 'text-primary-400 fill-current' : 'text-gray-600'
-                                                                                        }`}
-                                                                                />
-                                                                            ))}
+
+                                                                        <blockquote className="text-gray-300 leading-relaxed mb-8 font-light text-base flex-grow">
+                                                                            "{review.comment}"
+                                                                        </blockquote>
+
+                                                                        <div className="flex items-center justify-between pt-6 border-t border-white/10 mt-auto">
+                                                                            <div className="text-gray-500 text-xs font-medium uppercase tracking-wider">
+                                                                                {review.verified ? 'Verified Purchase' : 'Customer Review'}
+                                                                            </div>
+
+                                                                            <div className="flex items-center space-x-1">
+                                                                                <div className="w-1 h-1 bg-primary-400"></div>
+                                                                                <div className="w-1 h-1 bg-primary-400/60"></div>
+                                                                                <div className="w-1 h-1 bg-primary-400/30"></div>
+                                                                            </div>
                                                                         </div>
-                                                                        {review.verified && (
-                                                                            <span className="bg-green-600/20 text-green-400 px-3 py-1 text-xs font-bold uppercase tracking-wider border border-green-600/30">
-                                                                                Verified Purchase
-                                                                            </span>
-                                                                        )}
                                                                     </div>
                                                                 </div>
-
-                                                                <h4 className="text-white font-bold text-xl mb-3">{review.title}</h4>
-                                                                <p className="text-gray-300 leading-relaxed text-lg">{review.comment}</p>
                                                             </motion.div>
                                                         ))}
                                                     </div>
