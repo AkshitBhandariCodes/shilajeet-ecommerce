@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node init && next dev",
+    "build": "node init && next build",
+    "start": "node init && next start",
     "lint": "next lint",
     "seed": "node scripts/seed-database.js",
-    "seed:reviews": "node scripts/seed-product-reviews.js"
+    "sync:premium-reviews": "node scripts/sync-premium-validation-reviews.js"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",

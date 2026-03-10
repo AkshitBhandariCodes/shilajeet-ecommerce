@@ -1254,7 +1254,7 @@ export default function ProductDetailPage() {
 
                                             return (
                                                 <>
-                                                    {/* Reviews List */}
+                                                    {/* Reviews List - Premium Validation Card Format */}
                                                     <div className="grid md:grid-cols-2 gap-6">
                                                         {paginatedReviews.map((review, index) => (
                                                             <motion.div
@@ -1265,9 +1265,12 @@ export default function ProductDetailPage() {
                                                                 className="group"
                                                             >
                                                                 <div className="relative bg-jet-900 border border-white/20 hover:border-primary-400/50 transition-all duration-500 overflow-hidden h-full flex flex-col">
+                                                                    {/* Sharp corner accent */}
                                                                     <div className="absolute top-0 right-0 w-0 h-0 border-l-[20px] border-l-transparent border-t-[20px] border-t-primary-400/20 group-hover:border-t-primary-400/40 transition-all duration-300"></div>
 
+                                                                    {/* Content */}
                                                                     <div className="p-8 flex flex-col flex-grow">
+                                                                        {/* Header */}
                                                                         <div className="flex items-start justify-between mb-8">
                                                                             <div>
                                                                                 <div className="flex items-center space-x-3 mb-2">
@@ -1280,11 +1283,13 @@ export default function ProductDetailPage() {
                                                                                 <p className="text-gray-500 text-xs mt-1">{formatDate(review.createdAt)}</p>
                                                                             </div>
 
+                                                                            {/* Quote Icon */}
                                                                             <div className="text-white/10 group-hover:text-primary-400/20 transition-colors duration-300">
                                                                                 <Quote size={24} />
                                                                             </div>
                                                                         </div>
 
+                                                                        {/* Rating bars */}
                                                                         <div className="flex items-center space-x-3 mb-6">
                                                                             <div className="flex space-x-1">
                                                                                 {[...Array(review.rating)].map((_, i) => (
@@ -1294,10 +1299,12 @@ export default function ProductDetailPage() {
                                                                             <span className="text-white font-bold text-sm">{review.rating}.0</span>
                                                                         </div>
 
+                                                                        {/* Review Text */}
                                                                         <blockquote className="text-gray-300 leading-relaxed mb-8 font-light text-base flex-grow">
                                                                             "{review.comment}"
                                                                         </blockquote>
 
+                                                                        {/* Bottom */}
                                                                         <div className="flex items-center justify-between pt-6 border-t border-white/10 mt-auto">
                                                                             <div className="text-gray-500 text-xs font-medium uppercase tracking-wider">
                                                                                 {review.verified ? 'Verified Purchase' : 'Customer Review'}
@@ -1310,6 +1317,13 @@ export default function ProductDetailPage() {
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    {/* Hover effect */}
+                                                                    <motion.div
+                                                                        className="absolute inset-0 bg-gradient-to-br from-primary-400/5 to-transparent opacity-0 pointer-events-none"
+                                                                        animate={{ opacity: 0 }}
+                                                                        transition={{ duration: 0.3 }}
+                                                                    />
                                                                 </div>
                                                             </motion.div>
                                                         ))}

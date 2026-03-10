@@ -21,6 +21,7 @@ interface Review {
   productName: string;
   customerName: string;
   customerEmail: string;
+  title?: string;
   rating: number;
   comment: string;
   status: 'pending' | 'approved' | 'rejected';
@@ -65,6 +66,8 @@ export default function ReviewsPage() {
       filtered = filtered.filter(review =>
         review.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         review.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (review.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        review.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
         review.comment.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -294,6 +297,7 @@ export default function ReviewsPage() {
                     <div>
                       <h3 className="text-white font-bold">{review.customerName}</h3>
                       <p className="text-gray-400 text-xs">{review.customerEmail}</p>
+                      {review.title ? <p className="text-gray-500 text-xs mt-1">{review.title}</p> : null}
                       <p className="text-primary-400 text-sm mt-1">{review.productName}</p>
                     </div>
                     <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase border ${getStatusColor(review.status)}`}>

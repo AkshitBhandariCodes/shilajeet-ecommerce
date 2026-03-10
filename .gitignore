@@ -1,76 +1,148 @@
 # Dependencies
+
 node_modules/
+
 /.pnp
+
 .pnp.js
 
+
+
 # Testing
+
 /coverage
 
+
+
 # Production
+
 /.next/
+
 /out/
+
 /build/
+
 /dist/
 
+
+
 # Misc
+
 .DS_Store
+
 *.pem
-.env
-.env.local
+
 .env.development.local
+
 .env.test.local
+
 .env.production.local
 
+
+
 # Logs
+
 npm-debug.log*
+
 yarn-debug.log*
+
 yarn-error.log*
+
 .pnpm-debug.log*
 
+
+
 # Editor directories and files
-.vscode/
+
+
 .idea/
+
 *.suo
+
 *.ntvs*
+
 *.njsproj
+
 *.sln
+
 *.sw?
+
 .eslintcache
 
+
+
 # Cache
+
 .cache/
+
 .next/cache/
 
+
+
 # OS
+
 Thumbs.db
 
+
+
 # Large image files - use Cloudinary instead
+
 public/images/
+
 public/main/
+
 public/selling/
+
 public/out/
+
 public/out12/
+
 public/first/
+
 public/background/
+
 public/bg/
+
 public/certification/
+
 public/logo/
 
+
+
 # Keep only essential files
+
 !public/favicon.ico
 
+
+
 # Build artifacts
+
 .turbo/
+
 .vercel/
 
+
+
 # Environment
+
 .env.*.local
 
+
+
 # Scripts (don't need in production)
+
 scripts/
 
+
+
 # Documentation
+
 CLOUDINARY_MIGRATION.md
+
 RENDER_DEPLOYMENT.md
+
 RENDER_FIX_SUMMARY.md
+
 cloudinary-mapping.json
+
+config.bat

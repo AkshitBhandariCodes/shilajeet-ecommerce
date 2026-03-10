@@ -22,31 +22,30 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    // Fetch products once and resolve names by either custom slug id or Mongo _id string.
     const products = await Product.find({}, { id: 1, name: 1 }).lean();
-    const productNameByKey = new Map<string, string>();
+    const productNameById = new Map<string, string>();
 
     products.forEach((product: any) => {
       if (product?.id) {
-        productNameByKey.set(String(product.id), String(product.name));
+        productNameById.set(String(product.id), String(product.name));
       }
       if (product?._id) {
-        productNameByKey.set(String(product._id), String(product.name));
+        productNameById.set(String(product._id), String(product.name));
       }
     });
 
-    // Reviews are stored with productId as string in this project, so avoid populate for product.
-    const reviews = await Review.find({})
+    const reviews = await Review.find({ reported: false })
       .populate('userId', 'name email')
       .sort({ createdAt: -1 })
       .lean();
 
-    const formattedReviews = reviews.map(review => ({
+    const formattedReviews = reviews.map((review: any) => ({
       _id: review._id,
-      productId: review.productId,
-      productName: productNameByKey.get(String(review.productId)) || 'Unknown Product',
-      customerName: review.userId?.name || review.name || 'Anonymous',
-      customerEmail: review.userId?.email || review.email || '',
+      productId: String(review.productId || ''),
+      productName: productNameById.get(String(review.productId)) || 'Unknown Product',
+      customerName: review.userName || review.userId?.name || 'Anonymous',
+      customerEmail: review.userId?.email || '',
+      title: review.title || '',
       rating: review.rating,
       comment: review.comment,
       status: review.status || 'approved',
